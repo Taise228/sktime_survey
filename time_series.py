@@ -4,6 +4,7 @@ import numpy as np
 from sktime.datasets import load_basic_motions
 from sktime.classification.kernel_based import RocketClassifier
 from sktime.classification.hybrid import HIVECOTEV2
+from tslearn.neighbors import KNeighborsTimeSeriesClassifier
 
 
 def main(model):
@@ -39,4 +40,4 @@ def main(model):
 
 
 if __name__ == '__main__':
-    main('hc2')
+    main('rocket')
