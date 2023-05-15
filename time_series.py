@@ -23,7 +23,6 @@ def main(model_name):
 
     print(motion_train_x.shape, motion_train_y.shape, motion_test_x.shape, motion_test_y.shape)
 
-    start = time.time()
     if model_name == 'rocket':
         model = RocketClassifier()
     elif model_name == 'hc2':
@@ -39,9 +38,10 @@ def main(model_name):
     elif model_name == 'forest':
         model = MultivariateClassifier(TimeSeriesForestClassifier())
     elif model_name == 'drcif':
-        model = DrCIF(n_estimators=200, n_intervals=5)
+        model = DrCIF(n_estimators=50, n_intervals=3, min_interval=30)
 
     print('model downloaded')
+    start = time.time()
     model.fit(motion_train_x, motion_train_y)
     print('training complete')
     print('time elapsed for training:', time.time() - start)
