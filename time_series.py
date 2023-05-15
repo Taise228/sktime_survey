@@ -39,7 +39,7 @@ def main(model_name):
     elif model_name == 'forest':
         model = MultivariateClassifier(TimeSeriesForestClassifier())
     elif model_name == 'drcif':
-        model = DrCIF()
+        model = DrCIF(n_estimators=200, n_intervals=5)
 
     print('model downloaded')
     model.fit(motion_train_x, motion_train_y)
@@ -50,7 +50,7 @@ def main(model_name):
     print('time elapsed for prediction', time.time() - predict_start)
     accuracy = np.sum(y_pred == motion_test_y) / y_pred.shape[0]
     print(accuracy)
-    print(type(model.estimator))
+    # print(type(model.estimator))
 
 
 if __name__ == '__main__':
