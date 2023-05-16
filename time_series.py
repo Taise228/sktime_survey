@@ -7,7 +7,7 @@ from sktime.classification.hybrid import HIVECOTEV2
 from sktime.classification.early_classification import TEASER
 from sktime.classification.deep_learning import CNNClassifier
 from sktime.classification.shapelet_based import MrSQM
-from sktime.classification.interval_based import TimeSeriesForestClassifier, DrCIF
+from sktime.classification.interval_based import TimeSeriesForestClassifier, DrCIF, CanonicalIntervalForest
 from pyts.classification import TimeSeriesForest
 from pyts.multivariate.classification import MultivariateClassifier
 
@@ -38,7 +38,10 @@ def main(model_name):
     elif model_name == 'forest':
         model = MultivariateClassifier(TimeSeriesForestClassifier())
     elif model_name == 'drcif':
-        model = DrCIF(n_estimators=50, n_intervals=3, min_interval=30)
+        # base_estimator = 'dtc' or 'cit'
+        model = DrCIF(n_estimators=50, n_intervals=3, min_interval=4, base_estimator='cit')
+    elif model_name == 'cif':
+        model = CanonicalIntervalForest(n_estimators=50, n_intervals=3, min_interval=4)
 
     print('model downloaded')
     start = time.time()
@@ -50,7 +53,11 @@ def main(model_name):
     print('time elapsed for prediction', time.time() - predict_start)
     accuracy = np.sum(y_pred == motion_test_y) / y_pred.shape[0]
     print(accuracy)
+    
     # print(type(model.estimator))
+    tree = model.estimators_[0]
+    print(type(tree))
+    print(len(model.estimators_))
 
 
 if __name__ == '__main__':
